@@ -8,7 +8,7 @@ export class UserController {
 
     @Get(':id')
     show(@Param('id') id: string): Promise<UserDto> {
-        return this.userService.findById(id);
+        return this.userService.findRecipient(id);
     }
 
     @Post()

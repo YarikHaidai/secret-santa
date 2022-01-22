@@ -11,7 +11,7 @@ export class UserService {
         private readonly userRepository: Repository<UserEntity>
     ) {}
 
-    getCountUnallocated() {
+    async getCountUnallocated() {
         return this.userRepository.count({recipient_id: null});
     }
 
@@ -21,6 +21,16 @@ export class UserService {
 
     async findAll(): Promise<UserEntity[]> {
         return this.userRepository.find();
+    }
+
+    async findRecipient(id: string): Promise<UserDto> {
+        const user = await this.findById(id);
+        // TODO: fix
+        const recipient = await this.findById(user.recipient_id.toString());
+
+        delete recipient.id;
+        delete recipient.recipient_id;
+        return recipient;
     }
 
     async create(user: UserStoreDto): Promise<UserDto> {
@@ -48,7 +58,6 @@ export class UserService {
         id: user.id,
         name: user.name,
         surname: user.surname,
-        email: user.email,
         recipient_id: user.recipient_id,
         desires: user.desires.map(desire => desire.title)
     })

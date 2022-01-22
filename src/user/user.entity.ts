@@ -19,9 +19,6 @@ export class UserEntity {
     @Column()
     surname: string;
 
-    @Column()
-    email: string;
-
     @Column({nullable: true})
     recipient_id: number;
 
