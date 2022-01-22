@@ -1,7 +1,6 @@
 import {BadRequestException, Injectable} from '@nestjs/common';
 import {UserService} from "../user/user.service";
 import {ConfigService} from "../config/config.service";
-import {UserDto} from "../user/dto";
 import {UserEntity} from "../user/user.entity";
 
 @Injectable()
@@ -45,6 +44,7 @@ export class ShuffleService {
 
     async _checkRules() {
         const usersCount = await this.userService.count();
+        const countUnallocated = await this.userService.getCountUnallocated();
         const minCount = ConfigService.minCountUser()
         const maxCount = ConfigService.maxCountUser()
 
@@ -54,6 +54,10 @@ export class ShuffleService {
 
         if (usersCount > maxCount) {
             throw new BadRequestException('The number of users exceeds the limit!');
+        }
+
+        if (countUnallocated !== usersCount) {
+            throw new BadRequestException('Pairs already assigned!');
         }
     }
 }

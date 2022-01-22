@@ -3,7 +3,6 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "./user.entity";
 import {Repository} from "typeorm";
 import {UserDto, UserStoreDto} from "./dto";
-import {UpdateResult} from "typeorm/query-builder/result/UpdateResult";
 
 @Injectable()
 export class UserService {
@@ -12,12 +11,16 @@ export class UserService {
         private readonly userRepository: Repository<UserEntity>
     ) {}
 
+    getCountUnallocated() {
+        return this.userRepository.count({recipient_id: null});
+    }
+
     async count(): Promise<number> {
         return this.userRepository.count();
     }
 
     async findAll(): Promise<UserEntity[]> {
-        return  this.userRepository.find();
+        return this.userRepository.find();
     }
 
     async create(user: UserStoreDto): Promise<UserDto> {
