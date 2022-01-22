@@ -24,6 +24,8 @@
 # CMake
 cmake-build-debug/
 
+ormconfig.json
+
 # Mongo Explorer plugin:
 .idea/**/mongoSettings.xml
 

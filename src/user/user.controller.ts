@@ -1,19 +1,18 @@
 import {Body, Controller, Get, Param, Post} from '@nestjs/common';
-import {UserStoreDto} from "./dto/user-store.dto";
+import {UserService} from "./user.service";
+import {UserDto, UserStoreDto} from "./dto";
 
-@Controller('user')
+@Controller('api/users')
 export class UserController {
+    constructor(private readonly userService: UserService) {}
 
     @Get(':id')
-    show(@Param('id') id: string): string {
-
-        return "";
+    show(@Param('id') id: string): Promise<UserDto> {
+        return this.userService.findById(id);
     }
 
     @Post()
-    store(@Body() storeDto: UserStoreDto): string {
-        console.log(storeDto);
-
-        return "";
+    store(@Body() storeDto: UserStoreDto): Promise<UserDto> {
+        return this.userService.create(storeDto);
     }
 }
