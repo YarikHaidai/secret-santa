@@ -24,6 +24,8 @@
 # CMake
 cmake-build-debug/
 
+ormconfig.json
+
 # Mongo Explorer plugin:
 .idea/**/mongoSettings.xml
 
@@ -396,3 +398,4 @@ Temporary Items
 # Local
 .env
 dist
+package-lock.json

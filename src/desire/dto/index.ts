@@ -1,0 +1,1 @@
+export {DesireStoreDto} from './desire-store.dto';
