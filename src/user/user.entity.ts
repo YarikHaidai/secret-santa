@@ -1,7 +1,7 @@
 import {
     Column,
     CreateDateColumn,
-    Entity,
+    Entity, JoinColumn, ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn
@@ -20,12 +20,16 @@ export class UserEntity {
     surname: string;
 
     @Column({nullable: true})
-    recipient_id: number;
+    public recipient_id?: number;
+
+    @ManyToOne(() => UserEntity, user => user.id)
+    @JoinColumn({name: 'recipient_id'})
+    public recipient?: UserEntity;
 
     @OneToMany(
         type => Desire,
-            desire => desire.user,
-        {cascade: ['insert', 'update']}
+        desire => desire.user,
+        {cascade: true}
     )
     desires: Desire[];
 

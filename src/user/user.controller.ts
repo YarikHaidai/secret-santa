@@ -1,7 +1,8 @@
 import {Body, Controller, Get, Param, Post} from '@nestjs/common';
 import {UserService} from "./user.service";
-import {UserDto, UserStoreDto} from "./dto";
+import {UserDto, UserStoreDto, RecipientDto} from "./dto";
 import {ApiCreatedResponse, ApiOkResponse, ApiTags} from "@nestjs/swagger";
+import {ApiBadRequestResponse, ApiNotFoundResponse} from "@nestjs/swagger/dist/decorators/api-response.decorator";
 
 @ApiTags('Users')
 @Controller('api/users')
@@ -9,13 +10,16 @@ export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Get(':id')
-    @ApiOkResponse({type: UserDto})
-    recipientInfo(@Param('id') id: string): Promise<UserDto> {
+    @ApiOkResponse({type: RecipientDto})
+    @ApiBadRequestResponse({description: 'Pairs not yet determined!'})
+    @ApiNotFoundResponse({description: 'User not found!'})
+    recipientInfo(@Param('id') id: string): Promise<RecipientDto> {
         return this.userService.findRecipient(id);
     }
 
     @Post()
     @ApiCreatedResponse({type: UserDto})
+    @ApiBadRequestResponse({description: 'Pairs already assigned!'})
     store(@Body() storeDto: UserStoreDto): Promise<UserDto> {
         return this.userService.create(storeDto);
     }
