@@ -6,11 +6,16 @@ import {getRepositoryToken} from "@nestjs/typeorm";
 import {UserEntity} from "../src/user/user.entity";
 import {DesireEntity} from "../src/desire/desire.entity";
 import {UserService} from "../src/user/user.service";
+import {ShuffleModule} from "../src/shuffle/shuffle.module";
 
-describe('UserController (e2e)', () => {
+describe('ShuffleController (e2e)', () => {
     let app: INestApplication;
 
-    const mockStoreUser = {
+    const mockShuffleDto = {
+        status: true
+    };
+
+    const mockUserEntity = {
         id: 1,
         name: 'test',
         surname: 'test',
@@ -19,65 +24,41 @@ describe('UserController (e2e)', () => {
         }]
     };
 
-    const mockUserDto = {
-        id: 1,
-        name: 'test',
-        surname: 'test',
-        desires: ['Desire title']
-    };
-
-    const mockRecipientDto = {
-        name: 'test',
-        surname: 'test',
-        desires: ['Desire title']
+    const mockUserService = {
+        shuffle: jest.fn(),
+        _checkRules: jest.fn(),
+        rand: jest.fn(),
+        count: jest.fn().mockResolvedValue(3)
     };
 
     const mockUserRepository = {
-        count: jest.fn().mockResolvedValue(1),
+        count: jest.fn().mockResolvedValue(3),
         save: jest.fn().mockImplementation((user) =>
             Promise.resolve({id: Date.now(), ...user})
         ),
-        findOne: jest.fn().mockResolvedValue(mockStoreUser)
-    };
-
-    const mockUserService = {
-        create: jest.fn().mockResolvedValue(mockUserDto),
-        getCountUnallocated: jest.fn().mockResolvedValue(1),
-        findRecipient: jest.fn().mockResolvedValue(mockRecipientDto)
+        find: jest.fn().mockResolvedValue([mockUserEntity])
     };
 
     beforeAll(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
-            imports: [UserModule]
+            imports: [ShuffleModule]
         })
             .overrideProvider(getRepositoryToken(UserEntity))
             .useValue(mockUserRepository)
             .overrideProvider(getRepositoryToken(DesireEntity))
             .useValue(mockUserRepository)
-            .overrideProvider(UserService)
-            .useValue(mockUserService)
             .compile();
 
         app = moduleFixture.createNestApplication();
         await app.init();
     });
 
-    it('/api/users (POST)', () => {
+    it('api/shuffle (POST)', () => {
         return request(app.getHttpServer())
-            .post(`/api/users`)
-            .send(mockStoreUser)
-            .expect(HttpStatus.CREATED)
-            .then((response) => {
-                expect(response.body).toEqual(mockUserDto)
-            })
-    });
-
-    it('/api/users/:id (GET)', () => {
-        return request(app.getHttpServer())
-            .get('/api/users/1')
+            .post(`/api/shuffle`)
             .expect(HttpStatus.OK)
             .then((response) => {
-                expect(response.body).toEqual(mockRecipientDto)
+                expect(response.body).toEqual(mockShuffleDto)
             })
     });
 });
