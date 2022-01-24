@@ -26,12 +26,12 @@ describe("ShuffleController Unit Tests", () => {
         spyService = app.get<ShuffleService>(ShuffleService);
     })
 
-    it("calling controller index method", () => {
-        expect(shuffleController.index()).not.toEqual(null);
+    it("calling controller startShuffle method", () => {
+        expect(shuffleController.startShuffle()).not.toEqual(null);
     })
 
-    it("calling controller index method", () => {
-        shuffleController.index();
+    it("calling controller startShuffle method", () => {
+        shuffleController.startShuffle();
         expect(spyService.shuffle).toHaveBeenCalled();
     })
 });

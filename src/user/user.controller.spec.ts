@@ -24,14 +24,14 @@ describe("UserController Unit Tests", () => {
         spyService = app.get<UserService>(UserService);
     })
 
-    it("calling controller store method", () => {
+    it("calling controller create method", () => {
         const dto = new UserStoreDto();
-        expect(userController.store(dto)).not.toEqual(null);
+        expect(userController.create(dto)).not.toEqual(null);
     })
 
-    it("calling service store method", () => {
+    it("calling service create method", () => {
         const dto = new UserStoreDto();
-        userController.store(dto);
+        userController.create(dto);
         expect(spyService.create).toHaveBeenCalled();
         expect(spyService.create).toHaveBeenCalledWith(dto);
     })

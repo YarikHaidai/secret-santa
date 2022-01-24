@@ -22,7 +22,7 @@ export class UserController {
     @ApiOperation({description: 'Creating a new member'})
     @ApiCreatedResponse({type: UserDto})
     @ApiBadRequestResponse({description: 'Pairs already assigned!'})
-    store(@Body() storeDto: UserStoreDto): Promise<UserDto> {
+    create(@Body() storeDto: UserStoreDto): Promise<UserDto> {
         return this.userService.create(storeDto);
     }
 }

@@ -41,13 +41,6 @@ describe.only("UserService", () => {
         expect(createUserSpy).toHaveBeenCalledWith(dto);
     });
 
-    it('should call findById method with expected param', async () => {
-        const findByIdUserSpy = jest.spyOn(userService, 'findById');
-        const userId = 'userId';
-        await userService.findById(userId);
-        expect(findByIdUserSpy).toHaveBeenCalledWith(userId);
-    });
-
     it('should call update method with expected params', async () => {
         const updateUserSpy = jest.spyOn(userService, 'update');
         const user = new UserEntity();

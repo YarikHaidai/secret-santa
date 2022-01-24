@@ -1,6 +1,6 @@
 import {Controller, HttpCode, HttpStatus, Post} from '@nestjs/common';
 import {ShuffleService} from "./shuffle.service";
-import {ShuffleDto} from "./dto";
+import {ShuffleDto} from "./dto/shuffle.dto";
 import {ApiOkResponse, ApiOperation, ApiTags} from "@nestjs/swagger";
 import {ApiBadRequestResponse} from "@nestjs/swagger/dist/decorators/api-response.decorator";
 
@@ -14,7 +14,7 @@ export class ShuffleController {
     @ApiOkResponse({type: ShuffleDto})
     @HttpCode(HttpStatus.OK)
     @ApiBadRequestResponse({description: 'Inconsistent rules of the game!'})
-    async index(): Promise<ShuffleDto> {
+    async startShuffle(): Promise<ShuffleDto> {
         await this.shuffleService.shuffle();
 
         return {status: true}

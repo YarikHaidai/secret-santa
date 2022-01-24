@@ -27,17 +27,23 @@ export class UserService {
     }
 
     async findRecipient(id: string): Promise<RecipientDto> {
-        const user = await this.findById(id);
+        const user = await this.userRepository.findOne(id, {
+            'relations': ['desires', 'recipient']
+        });
 
-        if ( !user.recipient ) {
+        if (!user) {
+            throw new BadRequestException('User not found!');
+        }
+
+        if (!user.recipient) {
             throw new BadRequestException('Pairs not yet determined!');
         }
 
         user.recipient.desires = await this.desireRepository.find({
-            user_id: user.recipient.id
+            user_id: user.recipient_id
         });
 
-        return this.buildRecipientDto(user.recipient);
+        return this.buildRecipientDto(user);
     }
 
     async create(user: UserStoreDto): Promise<UserDto> {
@@ -58,23 +64,10 @@ export class UserService {
         return this.userRepository.save(user);
     }
 
-    async findById(id: string): Promise<UserDto> {
-        const user = await this.userRepository.findOne(id, {
-            'relations': ['desires', 'recipient']
-        });
-
-        if (!user) {
-            throw new BadRequestException('User not found!');
-        }
-
-        return this.buildDto(user);
-    }
-
     buildDto = (user: UserEntity): UserDto => ({
         id: user.id,
         name: user.name,
         surname: user.surname,
-        recipient: user.recipient,
         desires: user.desires.map(desire => desire.title)
     });
 
