@@ -1,14 +1,15 @@
 import {
   IsArray,
-  IsNumber,
-  IsString
+  IsInt,
+  IsString,
+  Min
 } from "class-validator";
 import {ApiProperty} from "@nestjs/swagger";
-import {UserEntity} from "../user.entity";
 
 export class UserDto {
   @ApiProperty()
-  @IsNumber()
+  @IsInt()
+  @Min(1)
   id: number;
 
   @ApiProperty()
@@ -18,9 +19,6 @@ export class UserDto {
   @ApiProperty()
   @IsString()
   surname: string;
-
-  @IsNumber()
-  recipient: UserEntity;
 
   @ApiProperty()
   @IsArray()

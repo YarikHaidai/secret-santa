@@ -21,9 +21,9 @@ export class ConfigService {
             type: DATABASE_TYPE || 'sqlite',
             host: DATABASE_HOST || 'localhost',
             port: DATABASE_PORT || '3306',
-            username: DATABASE_USER || '',
-            password: DATABASE_PASSWORD || '',
-            database: DATABASE_NAME || '',
+            username: DATABASE_USER || 'root',
+            password: DATABASE_PASSWORD || 'password',
+            database: DATABASE_NAME || 'santa',
             entities: [DATABASE_ENTITIES || 'dist/**/*.entity{.ts,.js}'],
             synchronize: DATABASE_SYNCHRONIZE || true,
         };

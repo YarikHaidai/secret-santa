@@ -1,11 +1,9 @@
 import * as request from 'supertest';
 import {Test, TestingModule} from '@nestjs/testing';
 import {HttpStatus, INestApplication} from '@nestjs/common';
-import {UserModule} from "../src/user/user.module";
 import {getRepositoryToken} from "@nestjs/typeorm";
 import {UserEntity} from "../src/user/user.entity";
 import {DesireEntity} from "../src/desire/desire.entity";
-import {UserService} from "../src/user/user.service";
 import {ShuffleModule} from "../src/shuffle/shuffle.module";
 
 describe('ShuffleController (e2e)', () => {

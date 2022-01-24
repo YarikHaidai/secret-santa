@@ -15,7 +15,7 @@ export class ShuffleService {
         const userIds = users.map(user => user.id);
         const distributed = [];
 
-        users.map((user: UserEntity) => {
+        users.map(async (user: UserEntity) => {
             let filterArray = [];
             filterArray.push(user.id, ...distributed);
 
@@ -26,7 +26,7 @@ export class ShuffleService {
             distributed.push(randomId);
 
             user.recipient_id = randomId;
-            this.userService.update(user);
+            await this.userService.update(user);
         });
     }
 
