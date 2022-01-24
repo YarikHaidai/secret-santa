@@ -40,4 +40,16 @@ export class ConfigService {
 
         return parseInt(MAX_COUNT_USERS) || 500;
     }
+
+    static basicAuthPassword(): string {
+        const AUTH_PASSWORD = process.env.AUTH_PASSWORD;
+
+        return AUTH_PASSWORD || 'awdasd';
+    }
+
+    static basicAuthUser(): string {
+        const AUTH_USER = process.env.AUTH_USER;
+
+        return AUTH_USER || 'dev';
+    }
 }
